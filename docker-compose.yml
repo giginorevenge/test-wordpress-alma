@@ -1,0 +1,30 @@
+services:
+  wordpress: 
+    image: wordpress:latest
+    container_name: wordpress_site
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: DB1234
+      WORDPRESS_DB_NAME: db_wordepress
+    ports:
+      - "8080:80"
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      - mysql
+  
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_wordpress
+    environment:
+      MYSQL_DATABASE: db_wordepress
+      MYSQL_USER: user
+      MYSQL_PASSWORD: DB1234
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  wordpress_data:
+  mysql_data:

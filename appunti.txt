@@ -1,0 +1,23 @@
+docker run -d \
+  --name db \
+  --network lamp-network \
+  -e MYSQL_ROOT_PASSWORD=rootpassword \
+  -e MYSQL_DATABASE=wordpress \
+  -e MYSQL_USER=wpuser \
+  -e MYSQL_PASSWORD=wppassword \
+  -v lamp_db_data:/var/lib/mysql \
+  mysql:8.0 \
+  --default-authentication-plugin=mysql_native_password
+
+  ----------------
+
+  docker network create lamp-network
+
+  ---------------
+
+  docker run -d \
+  --name lamp_web \
+  --network lamp-network \
+  -p 8080:80 \
+  -v $(pwd)/wordpress:/var/www/html \
+  image-apache-wordpress
